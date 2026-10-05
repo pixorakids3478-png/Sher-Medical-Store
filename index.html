@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHER MEDICAL STORE - Pharmacy Management System</title>
+  <meta name="description" content="Professional Medical Store and Pharmacy Management System with POS, Inventory, Stock Management, Financial Ledgers, and Analytics.">
+  <meta property="og:title" content="SHER MEDICAL STORE - Pharmacy Management System">
+  <meta property="og:description" content="Professional Medical Store and Pharmacy Management System.">
+  <meta property="og:type" content="website">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="app-body">
+  <!-- LOGIN OVERLAY -->
+  <div id="login-overlay" class="login-screen hidden">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-logo-wrap">
+          <img id="login-logo-img" src="./assets/logo-placeholder.svg" alt="Sher Medical Store Logo" class="brand-logo">
+        </div>
+        <h1 class="brand-title">SHER MEDICAL STORE</h1>
+        <p class="brand-subtitle">Pharmacy & Medical Store Management System</p>
+      </div>
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label for="login-username">Username or Email</label>
+          <div class="input-icon-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="login-username" required placeholder="admin" autocomplete="username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-icon-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+            <button type="button" id="toggle-password-btn" class="icon-btn-inline" title="Show/Hide Password">
+              <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="login-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember-me" checked>
+            <span>Remember login</span>
+          </label>
+          <span class="default-cred-hint">Default: admin / admin123</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- APPLICATION SHELL -->
+  <div id="app-container" class="app-layout">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-lockup">
+          <img id="sidebar-logo-img" src="./assets/logo-placeholder.svg" alt="Logo" class="sidebar-logo">
+          <div class="brand-text">
+            <span class="store-name" id="sidebar-store-name">SHER MEDICAL</span>
+            <span class="store-tag">PHARMACY SYSTEM</span>
+          </div>
+        </div>
+        <button type="button" id="sidebar-collapse-btn" class="sidebar-toggle" title="Toggle Sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">CORE OPERATIONS</div>
+        <button type="button" class="nav-item active" data-page="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="nav-label">Dashboard</span>
+        </button>
+        <button type="button" class="nav-item nav-item-highlight" data-page="pos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="nav-label">POS / New Sale</span>
+          <span class="nav-tag">F2</span>
+        </button>
+
+        <div class="nav-section-title">INVENTORY</div>
+        <button type="button" class="nav-item" data-page="medicines">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+          <span class="nav-label">Medicines</span>
+          <span class="nav-badge" id="badge-total-meds">0</span>
+        </button>
+        <button type="button" class="nav-item" data-page="categories">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span class="nav-label">Categories</span>
+        </button>
+        <button type="button" class="nav-item" data-page="stock">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <span class="nav-label">Stock Management</span>
+          <span class="nav-badge alert-badge" id="badge-stock-alerts">0</span>
+        </button>
+        <button type="button" class="nav-item" data-page="purchases">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="nav-label">Purchases</span>
+        </button>
+
+        <div class="nav-section-title">COMMERCE & ENTITIES</div>
+        <button type="button" class="nav-item" data-page="suppliers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span class="nav-label">Suppliers</span>
+        </button>
+        <button type="button" class="nav-item" data-page="customers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="nav-label">Customers</span>
+        </button>
+        <button type="button" class="nav-item" data-page="sales">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="nav-label">Sales History</span>
+        </button>
+        <button type="button" class="nav-item" data-page="returns">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+          <span class="nav-label">Returns</span>
+        </button>
+
+        <div class="nav-section-title">FINANCIALS</div>
+        <button type="button" class="nav-item" data-page="expenses">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+          <span class="nav-label">Expenses</span>
+        </button>
+        <button type="button" class="nav-item" data-page="income">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <span class="nav-label">Income</span>
+        </button>
+        <button type="button" class="nav-item" data-page="cashflow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+          <span class="nav-label">Cash Flow</span>
+        </button>
+        <button type="button" class="nav-item" data-page="ledger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span class="nav-label">Accounts / Ledger</span>
+        </button>
+
+        <div class="nav-section-title">ADMINISTRATION</div>
+        <button type="button" class="nav-item" data-page="reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span class="nav-label">Reports & Analytics</span>
+        </button>
+        <button type="button" class="nav-item" data-page="employees">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="nav-label">Employees</span>
+        </button>
+        <button type="button" class="nav-item" data-page="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="nav-label">Settings</span>
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="avatar-circle">AD</div>
+          <div class="user-meta">
+            <span class="user-name" id="user-display-name">Admin User</span>
+            <span class="user-role">Administrator</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVIGATION BAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" id="mobile-menu-btn" class="icon-btn mobile-only" title="Open Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="breadcrumbs" id="topbar-breadcrumbs">
+            <span class="crumb-root">Sher Medical Store</span>
+            <span class="crumb-sep">/</span>
+            <span class="crumb-current" id="crumb-current">Dashboard</span>
+          </div>
+        </div>
+
+        <div class="topbar-center">
+          <div class="global-search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="global-search-input" placeholder="Quick search medicines, invoices, customers... (Ctrl + K)">
+            <kbd class="kbd-shortcut">Ctrl K</kbd>
+            <div id="global-search-results" class="search-dropdown hidden"></div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="live-clock-badge" id="live-clock">
+            <span class="clock-date" id="clock-date">--/--/----</span>
+            <span class="clock-sep">·</span>
+            <span class="clock-time font-mono" id="clock-time">00:00:00</span>
+          </div>
+
+          <button type="button" class="btn btn-sm btn-primary-light" id="quick-pos-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>New Sale</span>
+          </button>
+
+          <!-- Notification Bell -->
+          <div class="popover-wrapper">
+            <button type="button" id="notif-btn" class="icon-btn notif-btn" title="Alerts & Notifications">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="notif-badge" class="notif-counter hidden">0</span>
+            </button>
+            <div id="notif-panel" class="dropdown-panel notif-panel hidden">
+              <div class="panel-header">
+                <h3>Store Alerts</h3>
+                <span id="notif-summary-text" class="text-xs text-muted">0 critical items</span>
+              </div>
+              <div id="notif-list" class="panel-body notif-list">
+                <div class="empty-notif">No urgent alerts found.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button type="button" id="theme-toggle-btn" class="icon-btn" title="Toggle Light/Dark Theme">
+            <svg id="theme-icon-sun" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+
+          <!-- User Menu Dropdown -->
+          <div class="popover-wrapper">
+            <button type="button" id="user-menu-btn" class="user-avatar-btn" title="Account Menu">
+              <span class="user-init">AD</span>
+            </button>
+            <div id="user-menu-dropdown" class="dropdown-panel user-panel hidden">
+              <div class="panel-header user-info-header">
+                <strong id="dropdown-user-name">Administrator</strong>
+                <span class="text-xs text-muted">SHER MEDICAL STORE</span>
+              </div>
+              <div class="panel-body menu-items">
+                <button type="button" class="menu-item" id="quick-settings-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  <span>System Settings</span>
+                </button>
+                <button type="button" class="menu-item" id="quick-backup-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <span>Download Backup</span>
+                </button>
+                <div class="menu-divider"></div>
+                <button type="button" class="menu-item text-danger" id="logout-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT VIEWPORT -->
+      <main id="main-content" class="content-viewport">
+        <!-- PAGES WILL BE RENDERED IN THESE CONTAINERS -->
+        <section id="page-dashboard" class="page-view active"></section>
+        <section id="page-pos" class="page-view"></section>
+        <section id="page-medicines" class="page-view"></section>
+        <section id="page-categories" class="page-view"></section>
+        <section id="page-stock" class="page-view"></section>
+        <section id="page-purchases" class="page-view"></section>
+        <section id="page-suppliers" class="page-view"></section>
+        <section id="page-customers" class="page-view"></section>
+        <section id="page-sales" class="page-view"></section>
+        <section id="page-returns" class="page-view"></section>
+        <section id="page-expenses" class="page-view"></section>
+        <section id="page-income" class="page-view"></section>
+        <section id="page-cashflow" class="page-view"></section>
+        <section id="page-ledger" class="page-view"></section>
+        <section id="page-reports" class="page-view"></section>
+        <section id="page-employees" class="page-view"></section>
+        <section id="page-settings" class="page-view"></section>
+      </main>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- MODAL CONTAINER (Generic Dynamic Modal Shell) -->
+  <div id="modal-container" class="modal-backdrop hidden">
+    <div class="modal-window" id="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-title">Dialog Title</h3>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- INVOICE PRINT VIEWPORT (Pure print-ready preview) -->
+  <div id="invoice-print-container" class="invoice-print-sheet hidden"></div>
+
+  <!-- APP SCRIPT -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "SHER MEDICAL STORE",
+  "description": "Professional Pharmacy & Medical Store Management System with POS, Inventory, Stock Management, Financial Ledgers, and Analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
